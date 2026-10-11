@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tanzeel Shahzad | Data & Automation Analyst</title>
-<meta name="description" content="Data Analyst portfolio: Power BI, SQL, Python and Excel automation.">
+<title>Tanzeel Shahzad | Data Analyst, Data Quality & Validation</title>
+<meta name="description" content="Data Analyst portfolio: SQL data validation, Python, Power BI and Excel automation.">
 <style>
 :root{--bg:#f4f7f8;--ink:#14202b;--mute:#5b6b78;--line:#d5dee3;--card:#fff;--teal:#0e7c86;--amber:#e8a33d;--tealsoft:#d7eef0}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1a22;--ink:#e8eef2;--mute:#9fb0bc;--line:#26384a;--card:#15232e;--teal:#4fc3cd;--amber:#f0b95a;--tealsoft:#173a40}}
@@ -72,28 +72,58 @@ footer{padding:30px 0 50px;color:var(--mute);font-size:14px}
 </head>
 <body>
 <div class="wrap">
-<nav aria-label="Sections"><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact">Contact</a></nav>
+<nav aria-label="Sections"><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact">Contact</a><a href="https://github.com/tanz-data">GitHub</a></nav>
 
 <header class="hero">
 <h1>I turn messy data into dashboards people actually use.</h1>
-<p class="role">Tanzeel Shahzad, Data & Automation Analyst</p>
-<p>5+ years in reporting, business intelligence and data cleaning. Power BI, SQL, Python and Excel automation. Based in Karachi, working remotely with teams across time zones.</p>
-<div class="kpis" style="max-width:520px"><div class="kpi"><small>Experience</small><strong>5+ yrs</strong></div><div class="kpi"><small>Stack</small><strong>BI, SQL, Python</strong></div><div class="kpi"><small>Works</small><strong>Remote</strong></div></div>
-<div class="btns"><a class="btn p" href="#projects">See my projects</a><a class="btn s" href="mailto:tanzeelshahzad220@gmail.com">Email me</a></div>
+<p class="role">Tanzeel Shahzad, Data Analyst | Data Quality & Validation</p>
+<p>5+ years in data analysis, validation and reporting. SQL, Python and Power BI, with a focus on catching data problems before they reach a dashboard or a client. Based in Karachi, working remotely with teams across time zones.</p>
+<div class="kpis" style="max-width:520px"><div class="kpi"><small>Experience</small><strong>5+ yrs</strong></div><div class="kpi"><small>Stack</small><strong>SQL, Python, BI</strong></div><div class="kpi"><small>Works</small><strong>Remote</strong></div></div>
+<div class="btns"><a class="btn p" href="#projects">See my projects</a><a class="btn s" href="mailto:tanzeelshahzad220@gmail.com">Email me</a><a class="btn s" href="https://github.com/tanz-data">GitHub</a></div>
 </header>
 
 <section id="projects">
 <h2>Projects</h2>
 <p class="sub">Click around, the charts are live.</p>
 <div class="tabs" role="tablist">
-<button class="tab" role="tab" id="t0" aria-selected="true" aria-controls="p0">Sales dashboard</button>
-<button class="tab" role="tab" id="t1" aria-selected="false" aria-controls="p1">Customer segmentation</button>
-<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Excel automation</button>
-<button class="tab" role="tab" id="t3" aria-selected="false" aria-controls="p3">Power BI report</button>
-<button class="tab" role="tab" id="t4" aria-selected="false" aria-controls="p4">Python data pipeline</button>
+<button class="tab" role="tab" id="t0" aria-selected="true" aria-controls="p0">Data validation</button>
+<button class="tab" role="tab" id="t1" aria-selected="false" aria-controls="p1">Sales dashboard</button>
+<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Customer segmentation</button>
+<button class="tab" role="tab" id="t3" aria-selected="false" aria-controls="p3">Excel automation</button>
+<button class="tab" role="tab" id="t4" aria-selected="false" aria-controls="p4">Power BI report</button>
+<button class="tab" role="tab" id="t5" aria-selected="false" aria-controls="p5">Python data pipeline</button>
 </div>
 
 <div class="panel" id="p0" role="tabpanel" aria-labelledby="t0">
+<h3>Healthcare data validation</h3>
+<p class="note">SQL checks that validate healthcare data before it is delivered: completeness, uniqueness, data types, accuracy, relationships and trends. The data is synthetic (generated with problems injected on purpose), so no real patient data is used.</p>
+<div class="kpis"><div class="kpi"><small>Tables</small><strong>3</strong></div><div class="kpi"><small>Checks</small><strong>23</strong></div><div class="kpi"><small>Failing on test data</small><strong>20</strong></div></div>
+<div class="scroll"><table>
+<tr><th>Category</th><th>Example check</th><th>Rows flagged</th></tr>
+<tr><td>Completeness</td><td>Patient birth date is blank</td><td>104 of 5,050</td></tr>
+<tr><td>Uniqueness</td><td>Duplicate patient IDs</td><td>50 of 5,050</td></tr>
+<tr><td>Data type</td><td>Billed amount is not numeric (e.g. "N/A")</td><td>117 of 17,742</td></tr>
+<tr><td>Accuracy</td><td>Discharge date before encounter date</td><td>44 of 19,637</td></tr>
+<tr><td>Relationship</td><td>Claim points to an encounter that does not exist</td><td>164 of 17,742</td></tr>
+<tr><td>Trend</td><td>Daily volume under 50% of the trailing 7-day average</td><td>3 days (15 to 17 Feb)</td></tr>
+</table></div>
+<pre><code>-- Data type: amounts that are not numeric
+SELECT SUM(CASE WHEN TRIM(billed_amount) &lt;&gt; ''
+                 AND TRY_CAST(billed_amount AS DECIMAL(12,2)) IS NULL
+                THEN 1 ELSE 0 END) AS failed_rows,
+       COUNT(*) AS total_rows
+FROM raw_claims;
+
+-- Trend: compare each day with the previous 7 days
+SELECT d, cnt,
+       AVG(cnt) OVER (ORDER BY d
+            ROWS BETWEEN 7 PRECEDING AND 1 PRECEDING) AS trailing_avg
+FROM daily;</code></pre>
+<p class="note" style="margin-top:14px">Includes a local runner and load-and-run scripts for Snowflake and Databricks. Every column is loaded as text so the checks can see bad types instead of the load hiding them.</p>
+<div class="btns"><a class="btn p" href="https://github.com/tanz-data/healthcare-data-validation">View on GitHub</a></div>
+</div>
+
+<div class="panel" id="p1" role="tabpanel" aria-labelledby="t1" hidden>
 <h3>Sales performance dashboard</h3>
 <p class="note">Tracks revenue, profit and orders by region and month, the kind of view built in Power BI with DAX measures.</p>
 <div class="tabs" id="regions"></div>
@@ -101,7 +131,7 @@ footer{padding:30px 0 50px;color:var(--mute);font-size:14px}
 <svg id="chart" viewBox="0 0 600 230" role="img" aria-label="Monthly revenue bar chart"></svg>
 </div>
 
-<div class="panel" id="p1" role="tabpanel" aria-labelledby="t1" hidden>
+<div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
 <h3>Customer segmentation with SQL</h3>
 <p class="note">Customers scored on recency, frequency and monetary value (RFM), then grouped into segments.</p>
 <div id="segs"></div>
@@ -120,7 +150,7 @@ SELECT customer_id,
 FROM rfm;</code></pre>
 </div>
 
-<div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
 <h3>Automated Excel reporting</h3>
 <p class="note">A weekly report that refreshes from raw exports instead of being rebuilt by hand.</p>
 <div class="scroll"><table>
@@ -133,7 +163,7 @@ FROM rfm;</code></pre>
 </table></div>
 </div>
 
-<div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+<div class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
 <h3>Executive sales report</h3>
 <p class="note">A Power BI style report: star-schema model, DAX measures, category slicer and target tracking. Pick a category.</p>
 <div class="tabs" id="cats"></div>
@@ -154,7 +184,7 @@ CALCULATE ( [Total Revenue],
     DATESINPERIOD ( 'Date'[Date], MAX ( 'Date'[Date] ), -3, MONTH ) )</code></pre>
 </div>
 
-<div class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+<div class="panel" id="p5" role="tabpanel" aria-labelledby="t5" hidden>
 <h3>Data cleaning pipeline</h3>
 <p class="note">A repeatable Python script that turns a raw export into a clean file and reports what it fixed.</p>
 <pre><code>import pandas as pd
@@ -187,12 +217,14 @@ print(issues)</code></pre>
 <h2>Skills</h2>
 <p class="sub">What I use day to day.</p>
 <div class="skills">
+<div><b>Data quality</b><span>SQL checks for completeness, accuracy, data types, relationships and trends</span></div>
+<div><b>SQL and Python</b><span>SQL Server, T-SQL, Python for cleaning, validation and automation</span></div>
+<div><b>ETL and pipelines</b><span>Power Query and SQL data preparation, multi-source integration, troubleshooting data issues</span></div>
 <div><b>BI and dashboards</b><span>Power BI, DAX, Power Query, KPI reporting</span></div>
-<div><b>Data work</b><span>SQL Server, Python, data cleaning and validation</span></div>
+<div><b>Cloud data platforms</b><span>Databricks and Snowflake (hands-on project practice)</span></div>
 <div><b>Excel</b><span>Pivot tables, lookups, automated reports</span></div>
-<div><b>Ways of working</b><span>Remote teams, Slack, Zoom, Trello, Jira</span></div>
 <div><b>Data modelling</b><span>Star schemas, relationships, reusable DAX measures</span></div>
-<div><b>Automation</b><span>Python scripts, Excel workflows, process improvement</span></div>
+<div><b>Ways of working</b><span>Remote teams, Slack, Zoom, Trello, Jira, Confluence</span></div>
 </div>
 </section>
 
@@ -211,16 +243,16 @@ print(issues)</code></pre>
 <h2>Experience</h2>
 <p class="sub">Currently studying for the IBM Data Analyst and Microsoft Power BI Data Analyst certificates.</p>
 <div class="tl">
-<div><b>Data Analyst, Techevin Pvt Ltd</b><small>Jan 2023 to present</small>Power BI dashboards for leadership, trend analysis, and automated Excel reporting with remote cross-functional teams.</div>
-<div><b>Data Analyst, Backoffice Providers</b><small>May 2022 to Jan 2023</small>Marketing and product performance analysis, with validation checks to keep data accurate.</div>
-<div><b>Data Operator, Enigma Tech Pvt Ltd</b><small>Jan 2021 to Apr 2022</small>Cleaned and validated large multi-source datasets and trained teammates on data quality practices.</div>
+<div><b>Data Analyst, Techevin Pvt Ltd</b><small>Jan 2023 to present</small>Dataset validation with SQL Server and Power Query, Power BI dashboards and KPI monitoring, ETL-style preparation from multiple sources, and automated Excel reporting with remote cross-functional teams.</div>
+<div><b>Data Analyst, Backoffice Providers</b><small>May 2022 to Jan 2023</small>Marketing and product performance analysis, data cleaning and validation checks, and reporting for stakeholders.</div>
+<div><b>Data Operator, Enigma Tech Pvt Ltd</b><small>Jan 2021 to Apr 2022</small>Validated and cleaned large multi-source datasets, checked records for duplicates and errors, and trained teammates on data quality practices.</div>
 </div>
 </section>
 
 <section id="contact">
 <h2>Contact</h2>
-<p class="sub">Open to remote data analyst and data entry work.</p>
-<p><a href="mailto:tanzeelshahzad220@gmail.com">tanzeelshahzad220@gmail.com</a></p>
+<p class="sub">Open to remote data analyst, data quality and data entry work.</p>
+<p><a href="mailto:tanzeelshahzad220@gmail.com">tanzeelshahzad220@gmail.com</a> | <a href="https://github.com/tanz-data">github.com/tanz-data</a></p>
 </section>
 <footer>Karachi, Pakistan (UTC+5), flexible with US, UK and EU hours.</footer>
 </div>
