@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tanzeel Shahzad | Data Analyst, Data Quality & Validation</title>
-<meta name="description" content="Data Analyst portfolio: SQL data validation, Python, Power BI and Excel automation.">
+<title>Tanzeel Shahzad | Data Analyst, Product & Business Analytics</title>
+<meta name="description" content="Data Analyst portfolio: SQL, Python, Power BI, KPI dashboards and reporting.">
 <style>
 :root{--bg:#f4f7f8;--ink:#14202b;--mute:#5b6b78;--line:#d5dee3;--card:#fff;--teal:#0e7c86;--amber:#e8a33d;--tealsoft:#d7eef0}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1a22;--ink:#e8eef2;--mute:#9fb0bc;--line:#26384a;--card:#15232e;--teal:#4fc3cd;--amber:#f0b95a;--tealsoft:#173a40}}
@@ -75,34 +75,59 @@ footer{padding:30px 0 50px;color:var(--mute);font-size:14px}
 </head>
 <body>
 <div class="wrap">
-<nav aria-label="Sections"><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact">Contact</a><a href="https://github.com/tanz-data">GitHub</a><a href="Tanzeel_Shahzad.pdf" download>CV</a></nav>
+<nav aria-label="Sections"><a href="#about">Summary</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#education">Education</a><a href="#contact">Contact</a><a href="https://github.com/tanz-data">GitHub</a><a href="Tanzeel_Shahzad.pdf" download>CV</a></nav>
 
 <header class="hero">
-<h1>I turn messy data into dashboards people actually use.</h1>
-<p class="role">Tanzeel Shahzad, Data Analyst | Data Quality & Validation</p>
-<p>5+ years in data analysis, validation and reporting. SQL, Python and Power BI, with a focus on catching data problems before they reach a dashboard or a client. Based in Karachi, working remotely with teams across time zones.</p>
+<h1>Turning raw data into clear decisions for stakeholders.</h1>
+<p class="role">Tanzeel Shahzad, Data Analyst | Product &amp; Business Analytics</p>
+<p>5+ years in data analysis and reporting, with SQL, Python and Power BI for KPI tracking, trend analysis and dashboards. Based in Karachi, working remotely with teams across time zones.</p>
 <div class="kpis" style="max-width:520px"><div class="kpi"><small>Experience</small><strong>5+ yrs</strong></div><div class="kpi"><small>Stack</small><strong>SQL, Python, BI</strong></div><div class="kpi"><small>Works</small><strong>Remote</strong></div></div>
 <div class="btns"><a class="btn p" href="#projects">See my projects</a><a class="btn s" href="mailto:tanzeelshahzad220@gmail.com">Email me</a><a class="btn s" href="https://github.com/tanz-data">GitHub</a><a class="btn s" href="Tanzeel_Shahzad.pdf" download>Download CV</a></div>
 </header>
 
 <section id="about">
-<h2>About</h2>
-<p>Data Analyst with 5+ years of combined experience in data analysis, data validation and reporting, including 4+ years in dedicated Data Analyst roles. Strong in SQL and Python for data quality checks (completeness, accuracy, data types, relationships and trends), ETL-style data preparation, and monitoring dashboards to catch unexpected data changes. Experienced with healthcare-related data, Power BI (DAX, Power Query) and automating manual validation and reporting workflows. Clear written and spoken English, with experience working directly with stakeholders and remote, cross-time-zone teams.</p>
+<h2>Professional Summary</h2>
+<p>Data Analyst with 5+ years of combined experience in data analysis and reporting, including 4+ years in dedicated Data Analyst roles. Skilled in SQL (SQL Server, T-SQL) and Python for analysis, KPI tracking, trend analysis and Power BI dashboards that turn raw data into clear decisions for stakeholders. Experienced in ETL data preparation, keeping data accurate and trustworthy, and automating recurring reports. Comfortable using AI assistants to speed up SQL and analysis while validating the outputs. Strong written and spoken English, with experience working directly with stakeholders and remote, cross-time-zone teams.</p>
 </section>
 
 <section id="projects">
 <h2>Projects</h2>
 <p class="sub">Work data is confidential, so these projects use sample or synthetic data. Click around, the charts are live.</p>
 <div class="tabs" role="tablist">
-<button class="tab" role="tab" id="t0" aria-selected="true" aria-controls="p0">Data validation</button>
+<button class="tab" role="tab" id="t0" aria-selected="true" aria-controls="p0">Customer segmentation</button>
 <button class="tab" role="tab" id="t1" aria-selected="false" aria-controls="p1">Sales dashboard</button>
-<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Customer segmentation</button>
+<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Healthcare data validation</button>
 <button class="tab" role="tab" id="t3" aria-selected="false" aria-controls="p3">Excel automation</button>
-<button class="tab" role="tab" id="t4" aria-selected="false" aria-controls="p4">Power BI report</button>
-<button class="tab" role="tab" id="t5" aria-selected="false" aria-controls="p5">Python data pipeline</button>
 </div>
 
 <div class="panel" id="p0" role="tabpanel" aria-labelledby="t0">
+<h3>Customer segmentation with SQL</h3>
+<p class="note">Customers scored on recency, frequency and monetary value (RFM), then grouped into segments. Illustrative figures.</p>
+<div id="segs"></div>
+<pre><code>WITH rfm AS (
+  SELECT customer_id,
+         DATEDIFF(day, MAX(order_date), GETDATE()) AS recency,
+         COUNT(*)    AS frequency,
+         SUM(amount) AS monetary
+  FROM orders
+  GROUP BY customer_id
+)
+SELECT customer_id,
+       NTILE(5) OVER (ORDER BY recency DESC) AS r,
+       NTILE(5) OVER (ORDER BY frequency)    AS f,
+       NTILE(5) OVER (ORDER BY monetary)     AS m
+FROM rfm;</code></pre>
+</div>
+
+<div class="panel" id="p1" role="tabpanel" aria-labelledby="t1" hidden>
+<h3>Sales performance dashboard</h3>
+<p class="note">Tracks revenue, profit and orders by region and month, the kind of view built in Power BI with DAX measures. Sample data.</p>
+<div class="tabs" id="regions"></div>
+<div class="kpis" id="kpis"></div>
+<svg id="chart" viewBox="0 0 600 230" role="img" aria-label="Monthly revenue bar chart"></svg>
+</div>
+
+<div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
 <h3>Healthcare data validation</h3>
 <p class="note">SQL checks that validate healthcare data before it is delivered: completeness, uniqueness, data types, accuracy, relationships and trends. The data is synthetic (generated with problems injected on purpose), so no real patient data is used.</p>
 <div class="kpis"><div class="kpi"><small>Tables</small><strong>3</strong></div><div class="kpi"><small>Checks</small><strong>23</strong></div><div class="kpi"><small>Failing on test data</small><strong>20</strong></div></div>
@@ -131,33 +156,6 @@ FROM daily;</code></pre>
 <div class="btns"><a class="btn p" href="https://github.com/tanz-data/healthcare-data-validation">View on GitHub</a></div>
 </div>
 
-<div class="panel" id="p1" role="tabpanel" aria-labelledby="t1" hidden>
-<h3>Sales performance dashboard</h3>
-<p class="note">Tracks revenue, profit and orders by region and month, the kind of view built in Power BI with DAX measures. Sample data.</p>
-<div class="tabs" id="regions"></div>
-<div class="kpis" id="kpis"></div>
-<svg id="chart" viewBox="0 0 600 230" role="img" aria-label="Monthly revenue bar chart"></svg>
-</div>
-
-<div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
-<h3>Customer segmentation with SQL</h3>
-<p class="note">Customers scored on recency, frequency and monetary value (RFM), then grouped into segments. Illustrative figures.</p>
-<div id="segs"></div>
-<pre><code>WITH rfm AS (
-  SELECT customer_id,
-         DATEDIFF(day, MAX(order_date), GETDATE()) AS recency,
-         COUNT(*)    AS frequency,
-         SUM(amount) AS monetary
-  FROM orders
-  GROUP BY customer_id
-)
-SELECT customer_id,
-       NTILE(5) OVER (ORDER BY recency DESC) AS r,
-       NTILE(5) OVER (ORDER BY frequency)    AS f,
-       NTILE(5) OVER (ORDER BY monetary)     AS m
-FROM rfm;</code></pre>
-</div>
-
 <div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
 <h3>Automated Excel reporting</h3>
 <p class="note">A weekly report that refreshes from raw exports instead of being rebuilt by hand.</p>
@@ -170,90 +168,29 @@ FROM rfm;</code></pre>
 <tr><td>5. Report</td><td>Summary sheet updates with one Refresh</td><td>Pivot Charts, slicers</td></tr>
 </table></div>
 </div>
-
-<div class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
-<h3>Executive sales report</h3>
-<p class="note">A Power BI style report: star-schema model, DAX measures, category slicer and target tracking. Sample data. Pick a category.</p>
-<div class="tabs" id="cats"></div>
-<div class="kpis" id="k2"></div>
-<svg id="c2" viewBox="0 0 600 220" role="img" aria-label="Monthly revenue against target"></svg>
-<div class="two"><svg id="donut" viewBox="0 0 200 200" role="img" aria-label="Revenue share by category"></svg><div class="scroll" id="top"></div></div>
-<pre><code>Total Revenue = SUM ( Sales[Amount] )
-
-Revenue vs Target % =
-DIVIDE ( [Total Revenue] - [Target], [Target] )
-
-Revenue YoY % =
-VAR PY = CALCULATE ( [Total Revenue], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
-RETURN DIVIDE ( [Total Revenue] - PY, PY )
-
-Rolling 3M =
-CALCULATE ( [Total Revenue],
-    DATESINPERIOD ( 'Date'[Date], MAX ( 'Date'[Date] ), -3, MONTH ) )</code></pre>
-</div>
-
-<div class="panel" id="p5" role="tabpanel" aria-labelledby="t5" hidden>
-<h3>Data cleaning pipeline</h3>
-<p class="note">A repeatable Python script that turns a raw export into a clean file and reports what it fixed.</p>
-<pre><code>import pandas as pd
-
-df = pd.read_csv("raw_orders.csv")
-df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
-df = df.drop_duplicates(subset="order_id")
-df["order_date"] = pd.to_datetime(df["order_date"], errors="coerce")
-df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
-
-issues = {
-    "missing_dates": int(df["order_date"].isna().sum()),
-    "missing_customers": int(df["customer_id"].isna().sum()),
-    "negative_amounts": int((df["amount"] &lt; 0).sum()),
-}
-clean = df.dropna(subset=["order_date", "customer_id"]).query("amount &gt;= 0")
-clean.to_csv("clean_orders.csv", index=False)
-print(issues)</code></pre>
-<div class="scroll" style="margin-top:14px"><table>
-<tr><th>Check</th><th>Why it matters</th><th>Action</th></tr>
-<tr><td>Duplicate orders</td><td>Inflates revenue</td><td>Drop by order ID</td></tr>
-<tr><td>Bad or missing dates</td><td>Breaks time reports</td><td>Flag, then exclude</td></tr>
-<tr><td>Negative amounts</td><td>Refunds mixed with sales</td><td>Separate into returns</td></tr>
-<tr><td>Missing customer ID</td><td>Breaks segmentation</td><td>Report back to source</td></tr>
-</table></div>
-</div>
 </section>
 
 <section id="skills">
-<h2>Skills</h2>
-<p class="sub">What I use day to day.</p>
+<h2>Core Skills</h2>
 <div class="skills">
-<div><b>Data quality</b><span>SQL checks for completeness, accuracy, data types, relationships and trends</span></div>
-<div><b>SQL and Python</b><span>SQL Server, T-SQL, Python for cleaning, validation and automation</span></div>
-<div><b>ETL and pipelines</b><span>Power Query and SQL data preparation, multi-source integration, troubleshooting data issues</span></div>
-<div><b>BI and dashboards</b><span>Power BI, DAX, Power Query, KPI reporting</span></div>
-<div><b>Cloud data platforms</b><span>Databricks and Snowflake (hands-on project practice)</span></div>
-<div><b>Excel</b><span>Pivot tables, lookups, automated reports</span></div>
-<div><b>Data modelling</b><span>Star schemas, relationships, reusable DAX measures</span></div>
-<div><b>Ways of working</b><span>Remote teams, Slack, Zoom, Trello, Jira, Confluence</span></div>
-</div>
-</section>
-
-<section id="approach">
-<h2>How I work</h2>
-<p class="sub">The same four steps on every project.</p>
-<div class="steps">
-<div><b>Clarify the question</b><span>Agree what decision the report supports and which KPIs matter.</span></div>
-<div><b>Model the data</b><span>Clean sources, build a clear model, write reusable measures.</span></div>
-<div><b>Validate</b><span>Reconcile totals with the source and check edge cases before sharing.</span></div>
-<div><b>Ship and maintain</b><span>Automate the refresh, document it, and adjust as needs change.</span></div>
+<div><b>Analytics and Metrics</b><span>KPI monitoring, trend analysis, customer segmentation, dashboards, reporting, stakeholder insights, requirements gathering</span></div>
+<div><b>SQL and Databases</b><span>SQL, SQL Server, T-SQL, complex queries, joins, aggregations, data extraction</span></div>
+<div><b>Python and Automation</b><span>Python (data cleaning, transformation, analysis), workflow automation, Excel (Pivot Tables, VLOOKUP, automated reports)</span></div>
+<div><b>BI and Modeling</b><span>Power BI, DAX, data modeling, Power Query, ETL, multi-source data integration</span></div>
+<div><b>Data Quality</b><span>Data validation, data cleaning, completeness and accuracy checks, anomaly investigation</span></div>
+<div><b>AI-Assisted Analysis</b><span>Writing and explaining SQL and analysis with AI assistants, validating outputs before use</span></div>
+<div><b>Collaboration</b><span>Stakeholder communication, Agile, Jira, Confluence, Slack, Zoom, Trello, remote collaboration</span></div>
+<div><b>Cloud Platforms</b><span>Databricks, Snowflake (hands-on project practice)</span></div>
 </div>
 </section>
 
 <section id="experience">
-<h2>Experience</h2>
-<p class="sub">Five years across data operations, analysis and BI.</p>
+<h2>Professional Experience</h2>
+<p class="sub">5+ years across data operations, analysis and reporting.</p>
 <div class="tl">
-<div><b>Data Analyst, Techevin Pvt Ltd</b><small>Jan 2023 to present</small><ul><li>Validate datasets for accuracy, completeness and consistency using SQL Server queries and Power Query before they feed reporting and stakeholder delivery.</li><li>Work with healthcare-related data, applying validation and quality checks to keep reported figures reliable.</li><li>Build and maintain Power BI dashboards and monitor KPIs, investigating unexpected changes in the data and tracing them back to their source.</li><li>Prepare data from multiple operational sources with ETL-style processes (Power Query, SQL) and troubleshoot data issues to resolve them quickly.</li><li>Automate recurring Excel reports and manual checks, reducing manual effort and errors across teams.</li><li>Gather requirements from business stakeholders and collaborate with cross-functional, cross-time-zone teams using Jira and Confluence.</li></ul></div>
-<div><b>Data Analyst, Backoffice Providers</b><small>May 2022 to Jan 2023</small><ul><li>Analyzed marketing and product-performance data to identify trends and support product and marketing decisions.</li><li>Maintained data accuracy and integrity through systematic validation and quality-assurance checks before analysis and reporting.</li><li>Cleaned and prepared data from multiple sources, resolving missing, duplicate and inconsistent records before analysis.</li><li>Prepared reports and summaries of findings for stakeholders to support product and marketing decision-making.</li><li>Worked with team members to clarify reporting needs and keep data consistent across analyses.</li></ul></div>
-<div><b>Data Operator, Enigma Tech Pvt Ltd</b><small>Jan 2021 to Apr 2022</small><ul><li>Designed and implemented data validation and cleaning processes that improved accuracy and consistency.</li><li>Managed and cleaned large, multi-source datasets to ensure data integrity.</li><li>Checked records for duplicates, missing values and formatting errors before handover, and corrected or flagged them.</li><li>Maintained consistent data-entry standards and accuracy across high-volume work.</li><li>Trained team members on data-handling and quality-assurance best practices.</li></ul></div>
+<div><b>Data Analyst | Techevin Pvt Ltd</b><small>Jan 2023 - Present</small><ul><li>Build and maintain Power BI dashboards and monitor KPIs, investigating unexpected changes in the data and tracing them back to their source.</li><li>Gather requirements from business stakeholders and collaborate with cross-functional, cross-time-zone teams using Jira and Confluence.</li><li>Prepare data from multiple operational sources using ETL processes (Power Query, SQL) and troubleshoot data issues to resolve them quickly.</li><li>Automate recurring Excel reports and manual data checks, reducing manual effort and errors across teams.</li><li>Validate datasets for accuracy, completeness and consistency using SQL Server queries and Power Query before they feed reporting and stakeholder delivery.</li><li>Apply data quality checks to healthcare-related data to keep reported figures reliable.</li></ul></div>
+<div><b>Data Analyst | Backoffice Providers</b><small>May 2022 - Jan 2023</small><ul><li>Analyzed marketing and product-performance data to identify trends and support product and marketing decisions.</li><li>Prepared reports and summaries of findings for stakeholders to support product and marketing decision-making.</li><li>Cleaned and prepared data from multiple sources, resolving missing, duplicate and inconsistent records before analysis.</li><li>Maintained data accuracy and integrity through systematic validation and quality checks before analysis and reporting.</li><li>Worked with team members to clarify reporting needs and keep data consistent across analyses.</li></ul></div>
+<div><b>Data Operator | Enigma Tech Pvt Ltd</b><small>Jan 2021 - Apr 2022</small><ul><li>Designed and implemented data validation and data cleaning processes that improved accuracy and consistency.</li><li>Managed and cleaned large, multi-source datasets to ensure data integrity.</li><li>Checked records for duplicates, missing values and formatting errors before handover, and corrected or flagged them.</li><li>Maintained consistent data-entry standards and accuracy across high-volume work.</li><li>Trained team members on data handling and quality assurance best practices.</li></ul></div>
 </div>
 </section>
 
@@ -269,11 +206,11 @@ print(issues)</code></pre>
 
 <section id="contact">
 <h2>Contact</h2>
-<p class="sub">Open to remote data analyst, data quality and data entry work.</p>
-<p><a href="mailto:tanzeelshahzad220@gmail.com">tanzeelshahzad220@gmail.com</a> | <a href="https://github.com/tanz-data">github.com/tanz-data</a></p>
+<p class="sub">Open to remote data analyst roles.</p>
+<p><a href="mailto:tanzeelshahzad220@gmail.com">tanzeelshahzad220@gmail.com</a> | +92 313 1738067 | <a href="https://github.com/tanz-data">github.com/tanz-data</a></p>
 <div class="btns"><a class="btn p" href="Tanzeel_Shahzad.pdf" download>Download CV (PDF)</a></div>
 </section>
-<footer>Karachi, Pakistan (UTC+5), available for US Eastern Time overlap and flexible with UK and EU hours.</footer>
+<footer>Karachi, Pakistan | Remote | Available for US Eastern Time overlap</footer>
 </div>
 
 <script>
@@ -300,20 +237,6 @@ const SEG=[["Champions",820,41],["Loyal",1450,32],["At risk",960,15],["New",1100
 document.getElementById("segs").innerHTML=SEG.map(s=>`<div class="seg"><span>${s[0]}</span><div class="track"><div class="fill" style="width:${s[2]/41*100}%"></div></div><span>${s[2]}%</span></div>`).join("")+`<p class="note">Bar = share of revenue. Customers per segment: ${SEG.map(s=>s[0]+" "+s[1].toLocaleString()).join(", ")}.</p>`;
 const tabs=[...document.querySelectorAll(".tab")];
 tabs.forEach((t,i)=>t.onclick=()=>{tabs.forEach((x,j)=>{x.setAttribute("aria-selected",i===j);document.getElementById("p"+j).hidden=i!==j})});
-const C={Bedding:[38,40,43,45,44,48,50,53,51,56,63,70],Bath:[27,28,30,31,33,32,35,37,36,39,42,48],Kitchen:[32,34,35,39,41,43,44,48,47,52,57,65]},TG=[95,98,102,106,108,112,116,120,122,128,138,152],CC=Object.keys(C),COL=["var(--teal)","var(--amber)","#7a8fa3"];
-let cat="All";const sm=a=>a.reduce((x,y)=>x+y,0);
-function d2(){const ks=cat==="All"?CC:[cat],all=sm(CC.map(k=>sm(C[k]))),part=sm(ks.map(k=>sm(C[k])));
-const rev=M.map((_,i)=>sm(ks.map(k=>C[k][i]))),tg=TG.map(v=>v*part/all),R=sm(rev),T=sm(tg);
-document.getElementById("k2").innerHTML=[["Revenue","$"+R+"k"],["vs target",((R/T-1)*100).toFixed(1)+"%"],["Rolling 3M","$"+sm(rev.slice(-3))+"k"],["Best month",M[rev.indexOf(Math.max(...rev))]]].map(x=>`<div class="kpi"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join("");
-const mx=Math.max(...rev,...tg)*1.05;let s="",pts=[];
-rev.forEach((v,i)=>{const h=v/mx*170,x=20+i*48.5;s+=`<rect class="bar" x="${x}" y="${190-h}" width="36" height="${h}" rx="3"><title>${M[i]}: $${v}k</title></rect><text x="${x+18}" y="208" text-anchor="middle">${M[i]}</text>`;pts.push((x+18)+","+(190-tg[i]/mx*170))});
-document.getElementById("c2").innerHTML=s+`<polyline points="${pts.join(" ")}" fill="none" stroke="var(--amber)" stroke-width="3"/><text x="20" y="14">Bars: revenue. Line: target.</text>`;
-let off=0,ds="",rows="<table><tr><th>Category</th><th>Revenue</th><th>Share</th></tr>";
-CC.forEach((k,i)=>{const v=sm(C[k]),f=v/all*377;ds+=`<circle cx="100" cy="100" r="60" fill="none" stroke="${COL[i]}" stroke-width="28" stroke-dasharray="${f} ${377-f}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)" opacity="${cat==="All"||cat===k?1:.25}"/>`;off+=f;rows+=`<tr><td>${k}</td><td>$${v}k</td><td>${(v/all*100).toFixed(0)}%</td></tr>`});
-document.getElementById("donut").innerHTML=ds;document.getElementById("top").innerHTML=rows+"</table>"}
-const cb=document.getElementById("cats");
-["All",...CC].forEach(c=>{const b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=()=>{cat=c;[...cb.children].forEach(x=>x.setAttribute("aria-pressed",x===b));d2()};cb.appendChild(b)});
-d2();
 </script>
 </body>
 </html>
